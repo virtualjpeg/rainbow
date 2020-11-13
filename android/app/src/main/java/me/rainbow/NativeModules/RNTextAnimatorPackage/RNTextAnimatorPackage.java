@@ -33,7 +33,6 @@ class UIUpdater {
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private Runnable mStatusChecker;
     private int UPDATE_INTERVAL = 2000;
-
     public UIUpdater(final Runnable uiUpdater) {
         mStatusChecker = new Runnable() {
             @Override
