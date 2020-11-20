@@ -75,7 +75,6 @@ describe('Swap Sheet Interaction Flow', () => {
     } else {
       await Helpers.swipe('exchange-modal-header', 'down', 'slow');
     }
-    console.log('just wiped BRO');
     await Helpers.delay(1000);
     await Helpers.tap('exchange-fab');
     await Helpers.checkIfVisible('exchange-modal-input');
