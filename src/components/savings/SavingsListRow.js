@@ -163,7 +163,7 @@ const SavingsListRow = ({
             align="center"
             css={padding(9, 10, 10, 11)}
             justify="space-between"
-            onPress={NOOP}
+            onPress={onButtonPress}
             scaleTo={0.96}
           >
             {underlying.symbol && supplyBalanceUnderlying ? (
