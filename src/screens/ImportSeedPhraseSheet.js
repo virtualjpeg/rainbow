@@ -155,6 +155,13 @@ export default function ImportSeedPhraseSheet() {
   const [startAnalyticsTimeout] = useTimeout();
   const wasImporting = usePrevious(isImporting);
 
+  useEffect(() => {
+    android &&
+      setTimeout(() => {
+        inputRef?.current.focus();
+      }, 500);
+  }, []);
+
   const inputRef = useRef(null);
 
   useEffect(() => {
