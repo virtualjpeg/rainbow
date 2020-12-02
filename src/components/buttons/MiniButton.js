@@ -33,7 +33,7 @@ export default function MiniButton({
   height,
   ...props
 }) {
-  return (
+  const buttonOnly = (
     <ButtonPressAnimation
       disabled={disabled}
       onPress={onPress}
@@ -62,5 +62,11 @@ export default function MiniButton({
         <InnerBorder radius={borderRadius} />
       </View>
     </ButtonPressAnimation>
+  );
+
+  return android ? (
+    <View style={{ borderRadius, overflow: 'hidden' }}>{buttonOnly}</View>
+  ) : (
+    buttonOnly
   );
 }
