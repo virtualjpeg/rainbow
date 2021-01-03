@@ -74,7 +74,11 @@ const gradients = {
   lightGrey: [buildRgba('#ECF1F5', 0.5), buildRgba('#DFE4EB', 0.5)],
   offWhite: [base.white, base.offWhite],
   rainbow: ['#FFB114', '#FF54BB', '#7EA4DE'],
-  shimmer: [base.transparent, base.white, base.transparent],
+  shimmer: [
+    buildRgba(base.white, 0),
+    buildRgba(base.white, 0.2),
+    buildRgba(base.white, 0),
+  ],
 };
 
 const sendScreen = {

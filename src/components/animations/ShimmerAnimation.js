@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
+  NewEasing,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
-  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import styled from 'styled-components/primitives';
 import { colors, position } from '@rainbow-me/styles';
 
-const springConfig = {
-  damping: 14,
-  mass: 1,
-  stiffness: 50,
+const timingConfig = {
+  duration: 2500,
+  easing: NewEasing.bezier(0.76, 0, 0.24, 1),
 };
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
@@ -25,16 +25,16 @@ const ColorGradient = styled(AnimatedLinearGradient).attrs({
 `;
 
 export default function ShimmerAnimation({ enabled = true, width = 0 }) {
-  const opacity = useSharedValue(0.25);
-  const positionX = useSharedValue(-width);
+  const opacity = useSharedValue(1);
+  const positionX = useSharedValue(-width * 1.5);
 
   useEffect(() => {
     if (enabled) {
-      opacity.value = withSpring(0.25, springConfig);
-      positionX.value = withRepeat(withSpring(width, springConfig), -1);
+      opacity.value = withTiming(1, timingConfig);
+      positionX.value = withRepeat(withTiming(width * 1.5, timingConfig), -1);
     } else {
-      opacity.value = withSpring(0, springConfig);
-      positionX.value = -width;
+      opacity.value = withTiming(0, timingConfig);
+      positionX.value = -width * 1.5;
     }
   }, [enabled, opacity, positionX, width]);
 
