@@ -1,6 +1,7 @@
 import { get, isEmpty, isNumber, toLower } from 'lodash';
 import React, { Fragment, useCallback, useMemo } from 'react';
 import styled from 'styled-components/primitives';
+import { CameraHeaderButton } from '../../components/header';
 import { useNavigation } from '../../navigation/Navigation';
 import Divider from '../Divider';
 import { AddContactButton, PasteAddressButton } from '../buttons';
@@ -155,7 +156,12 @@ export default function SendHeader({
             }
           />
         )}
-        {!isValidAddress && <PasteAddressButton onPress={onPressPaste} />}
+        {!isValidAddress && (
+          <Row style={{ alignItems: 'center' }}>
+            <PasteAddressButton onPress={onPressPaste} />
+            <CameraHeaderButton />
+          </Row>
+        )}
       </AddressInputContainer>
       <Divider color={colors.rowDivider} flex={0} inset={false} />
     </Fragment>
