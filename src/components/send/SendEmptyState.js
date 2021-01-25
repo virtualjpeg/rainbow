@@ -4,7 +4,7 @@ import { Transition, Transitioning } from 'react-native-reanimated';
 import { sheetVerticalOffset } from '../../navigation/effects';
 import { Icon } from '../icons';
 import { Centered } from '../layout';
-import { colors } from '@rainbow-me/styles';
+import { colors_NOT_REACTIVE } from '@rainbow-me/styles';
 
 const duration = 200;
 const transition = (
@@ -43,7 +43,7 @@ const SendEmptyState = () => {
 
   const icon = (
     <Icon
-      color={colors.alpha(colors.blueGreyDark, 0.06)}
+      color={colors_NOT_REACTIVE.alpha(colors_NOT_REACTIVE.blueGreyDark, 0.06)}
       height={88}
       name="send"
       style={{
@@ -53,6 +53,7 @@ const SendEmptyState = () => {
       width={91}
     />
   );
+  const { colors } = useTheme();
 
   if (android) {
     return <View style={{ alignItems: 'center', flex: 1 }}>{icon}</View>;
