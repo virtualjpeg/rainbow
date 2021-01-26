@@ -10,13 +10,16 @@ import { INFURA_PROJECT_ID, INFURA_PROJECT_ID_DEV } from 'react-native-dotenv';
 import AssetTypes from '../helpers/assetTypes';
 import NetworkTypes from '../helpers/networkTypes';
 import {
+  addBuffer,
   convertAmountToRawAmount,
   convertStringToHex,
+  greaterThan,
   handleSignificantDecimals,
   multiply,
 } from '../helpers/utilities';
 import smartContractMethods from '../references/smartcontract-methods.json';
 import { ethereumUtils, logger } from '../utils';
+import { ethUnits } from '@rainbow-me/references';
 
 const infuraProjectId = __DEV__ ? INFURA_PROJECT_ID_DEV : INFURA_PROJECT_ID;
 const infuraUrl = `https://network.infura.io/v3/${infuraProjectId}`;
@@ -116,30 +119,49 @@ export const estimateGasWithPadding = async (
   paddingFactor = 1.25
 ) => {
   try {
-    const estimatedGas = await web3Provider.estimateGas(txPayload);
-    const { gasLimit } = await web3Provider.getBlock('latest');
+    const txPayloadToEstimate = { ...txPayload };
+    const { gasLimit } = await web3Provider.getBlock();
+    const { to, data } = txPayloadToEstimate.to;
+    // 1 - Check if the receiver is a contract
+    const code = to ? await web3Provider.getCode(to) : undefined;
+    // 2 - if it's not a contract or it doesn't have any data use the default gas limit
+    if (!to || (to && !data && (!code || code === '0x'))) {
+      logger.log(
+        '⛽ Skipping estimates, using default',
+        ethUnits.basic_tx.toString()
+      );
+      return ethUnits.basic_tx.toString();
+    }
 
-    const lastBlockGasLimit = multiply(gasLimit, 0.9);
-    const paddedGas = multiply(estimatedGas, paddingFactor);
+    // 3 - If it is a contract, call the RPC method `estimateGas` with a safe value
+    const saferGasLimit = new BigNumber(gasLimit)
+      .times(19)
+      .dividedBy(20)
+      .toFixed(0);
+    txPayloadToEstimate.gas = toHex(saferGasLimit.toString());
+    const estimatedGas = await web3Provider.estimateGas(txPayloadToEstimate);
+
+    const lastBlockGasLimit = addBuffer(gasLimit.toString(), 0.9);
+    const paddedGas = addBuffer(estimatedGas.toString(), paddingFactor);
     logger.log('⛽ GAS CALCULATIONS!', {
       estimatedGas: estimatedGas.toString(),
       gasLimit: gasLimit.toString(),
-      lastBlockGasLimit: lastBlockGasLimit.toString(),
-      paddedGas: paddedGas.toString(),
+      lastBlockGasLimit: lastBlockGasLimit,
+      paddedGas: paddedGas,
     });
-    // If the estimation is above the last block gas limit, use it
-    if (estimatedGas.gt(lastBlockGasLimit)) {
+    // If the safe estimation is above the last block gas limit, use it
+    if (greaterThan(estimatedGas, lastBlockGasLimit)) {
       logger.log('⛽ USING orginal gas estimation', estimatedGas.toString());
       return estimatedGas.toString();
     }
     // If the estimation is below the last block gas limit, use the padded estimate
-    if (paddedGas.lt(lastBlockGasLimit)) {
-      logger.log('⛽ USING padded gas estimation', paddedGas.toString());
-      return paddedGas.toString();
+    if (greaterThan(lastBlockGasLimit, paddedGas)) {
+      logger.log('⛽ USING padded gas estimation', paddedGas);
+      return paddedGas;
     }
     // otherwise default to the last block gas limit
-    logger.log('⛽ USING last block gas limit', lastBlockGasLimit.toString());
-    return lastBlockGasLimit.toString();
+    logger.log('⛽ USING last block gas limit', lastBlockGasLimit);
+    return lastBlockGasLimit;
   } catch (error) {
     return null;
   }
