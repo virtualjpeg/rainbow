@@ -36,7 +36,9 @@ export default function useColorForAsset(asset, fallbackColor) {
       return isDarkMode && colors.isColorDark(color)
         ? colors.brighten(color)
         : color;
-    if (tokenListColor) return tokenListColor;
+    if (tokenListColor) return isDarkMode && colors.isColorDark(tokenListColor)
+        ? colors.brighten(tokenListColor)
+        : tokenListColor;
     if (imageColor) return imageColor;
     if (fallbackColor) return fallbackColor;
     return colorDerivedFromAddress;
