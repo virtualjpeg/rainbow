@@ -16,7 +16,7 @@ import {
   multiply,
 } from '../helpers/utilities';
 import smartContractMethods from '../references/smartcontract-methods.json';
-import { ethereumUtils } from '../utils';
+import { ethereumUtils, logger } from '../utils';
 
 const infuraProjectId = __DEV__ ? INFURA_PROJECT_ID_DEV : INFURA_PROJECT_ID;
 const infuraUrl = `https://network.infura.io/v3/${infuraProjectId}`;
@@ -121,15 +121,24 @@ export const estimateGasWithPadding = async (
 
     const lastBlockGasLimit = multiply(gasLimit, 0.9);
     const paddedGas = multiply(estimatedGas, paddingFactor);
+    logger.log('⛽ GAS CALCULATIONS!', {
+      estimatedGas: estimatedGas.toString(),
+      gasLimit: gasLimit.toString(),
+      lastBlockGasLimit: lastBlockGasLimit.toString(),
+      paddedGas: paddedGas.toString(),
+    });
     // If the estimation is above the last block gas limit, use it
     if (estimatedGas.gt(lastBlockGasLimit)) {
+      logger.log('⛽ USING orginal gas estimation', estimatedGas.toString());
       return estimatedGas.toString();
     }
     // If the estimation is below the last block gas limit, use the padded estimate
     if (paddedGas.lt(lastBlockGasLimit)) {
+      logger.log('⛽ USING padded gas estimation', paddedGas.toString());
       return paddedGas.toString();
     }
     // otherwise default to the last block gas limit
+    logger.log('⛽ USING last block gas limit', lastBlockGasLimit.toString());
     return lastBlockGasLimit.toString();
   } catch (error) {
     return null;
