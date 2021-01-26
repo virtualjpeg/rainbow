@@ -107,6 +107,36 @@ export const estimateGas = async estimateGasData => {
 };
 
 /**
+ * @desc Estimates the gas limit of a tx and adds padding if necessary
+ * @param  {Object} transaction payload
+ * @return {Number} padding factor
+ */
+export const estimateGasWithPadding = async (
+  txPayload,
+  paddingFactor = 1.25
+) => {
+  try {
+    const estimatedGas = await web3Provider.estimateGas(txPayload);
+    const { gasLimit } = await web3Provider.getBlock('latest');
+
+    const lastBlockGasLimit = multiply(gasLimit, 0.9);
+    const paddedGas = multiply(estimatedGas, paddingFactor);
+    // If the estimation is above the last block gas limit, use it
+    if (estimatedGas.gt(lastBlockGasLimit)) {
+      return estimatedGas.toString();
+    }
+    // If the estimation is below the last block gas limit, use the padded estimate
+    if (paddedGas.lt(lastBlockGasLimit)) {
+      return paddedGas.toString();
+    }
+    // otherwise default to the last block gas limit
+    return lastBlockGasLimit.toString();
+  } catch (error) {
+    return null;
+  }
+};
+
+/**
  * @desc convert from ether to wei
  * @param  {String} value in ether
  * @return {String} value in wei
@@ -307,5 +337,5 @@ export const estimateGasLimit = async ({
       value: '0x0',
     };
   }
-  return estimateGas(estimateGasData);
+  return estimateGasWithPadding(estimateGasData);
 };
