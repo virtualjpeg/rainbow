@@ -1,7 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import React from 'react';
-import ExchangeModalTypes from '../helpers/exchangeModalTypes';
 import ExchangeModal from './ExchangeModal';
+import { ExchangeModalTypes } from '@rainbow-me/entities';
 import {
   createUnlockAndSwapRap,
   estimateUnlockAndSwap,

@@ -1,18 +1,18 @@
 import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
-import ExchangeModalTypes from '../../helpers/exchangeModalTypes';
 import { HoldToAuthorizeButton } from '../buttons';
 import { SlippageWarningThresholdInBips } from './SlippageWarning';
+import { ExchangeModalTypes } from '@rainbow-me/entities';
 
 const getLabel = type => {
   switch (type) {
-    case ExchangeModalTypes.addLiquidity:
+    case ExchangeModalTypes.depositUniswap:
       return 'Add Liquidity';
-    case ExchangeModalTypes.deposit:
+    case ExchangeModalTypes.depositCompound:
       return 'Hold to Deposit';
-    case ExchangeModalTypes.removeLiquidity:
+    case ExchangeModalTypes.withdrawUniswap:
       return 'Remove Liquidity';
-    case ExchangeModalTypes.withdrawal:
+    case ExchangeModalTypes.withdrawCompound:
       return 'Hold to Withdraw ';
     default:
       return 'Hold to Swap';

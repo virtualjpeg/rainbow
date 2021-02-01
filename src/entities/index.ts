@@ -1,4 +1,6 @@
 export type { TxFee, SelectedGasPrice } from './gas';
+export type { ExchangeModalType } from './swap';
+export { ExchangeModalTypes } from './swap';
 export type {
   Asset,
   SavingsAsset,

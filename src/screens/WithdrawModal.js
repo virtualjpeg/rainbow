@@ -1,7 +1,7 @@
 import React from 'react';
-import ExchangeModalTypes from '../helpers/exchangeModalTypes';
 import useStatusBarManaging from '../navigation/useStatusBarManaging';
 import ExchangeModal from './ExchangeModal';
+import { ExchangeModalTypes } from '@rainbow-me/entities';
 import {
   createWithdrawFromCompoundRap,
   estimateWithdrawFromCompound,
@@ -25,7 +25,7 @@ const WithdrawModal = ({ route, navigation, ...props }) => {
       navigation={navigation}
       showOutputField={false}
       supplyBalanceUnderlying={supplyBalanceUnderlying}
-      type={ExchangeModalTypes.withdrawal}
+      type={ExchangeModalTypes.withdrawCompound}
       underlyingPrice={underlyingPrice}
       {...props}
     />

@@ -1,9 +1,9 @@
 import { useRoute } from '@react-navigation/native';
 import React from 'react';
-import ExchangeModalTypes from '../helpers/exchangeModalTypes';
 import { ExchangeNavigatorFactory } from '../navigation/ExchangeModalNavigator';
 import useStatusBarManaging from '../navigation/useStatusBarManaging';
 import ExchangeModal from './ExchangeModal';
+import { ExchangeModalTypes } from '@rainbow-me/entities';
 import {
   createSwapAndDepositCompoundRap,
   estimateSwapAndDepositCompound,
@@ -23,7 +23,7 @@ const DepositModal = ({ navigation, ...props }) => {
       inputHeaderTitle="Deposit"
       navigation={navigation}
       showOutputField={false}
-      type={ExchangeModalTypes.deposit}
+      type={ExchangeModalTypes.depositCompound}
       underlyingPrice={underlyingPrice}
       {...props}
     />
