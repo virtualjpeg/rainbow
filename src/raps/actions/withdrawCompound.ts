@@ -66,7 +66,7 @@ const withdrawCompound = async (
   );
 
   const transactionParams = {
-    gasLimit: ethUnits.basic_withdrawal,
+    gasLimit: ethUnits.basic_withdraw_compound,
     gasPrice: toHex(gasPrice) || undefined,
     value: toHex(0),
   };

@@ -5,7 +5,8 @@ import store from '@rainbow-me/redux/store';
 import { ethUnits } from '@rainbow-me/references';
 import logger from 'logger';
 
-export const estimateWithdrawFromCompound = () => ethUnits.basic_withdrawal;
+export const estimateWithdrawFromCompound = () =>
+  ethUnits.basic_withdraw_compound;
 
 export const createWithdrawFromCompoundRap = ({
   callback,

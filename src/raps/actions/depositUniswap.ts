@@ -7,7 +7,6 @@ import {
   Rap,
   RapActionParameters,
 } from '../common';
-import { Asset } from '@rainbow-me/entities';
 import { depositToPool } from '@rainbow-me/handlers/uniswapLiquidity';
 import { toHex } from '@rainbow-me/handlers/web3';
 import ProtocolTypes from '@rainbow-me/helpers/protocolTypes';
@@ -26,10 +25,7 @@ const NOOP = () => undefined;
 const actionTag = '[deposit Uniswap LP]';
 
 // TODO JIN - fix this
-export const getDepositUniswapGasLimit = (inputCurrency: Asset) =>
-  inputCurrency.address === 'eth'
-    ? ethUnits.basic_deposit_eth
-    : ethUnits.basic_deposit;
+export const getDepositUniswapGasLimit = () => ethUnits.basic_deposit_uniswap;
 
 const depositUniswap = async (
   wallet: Wallet,
@@ -66,7 +62,7 @@ const depositUniswap = async (
   logger.log(`${actionTag} gas price`, gasPrice);
 
   const transactionParams = {
-    gasLimit: getDepositUniswapGasLimit(inputCurrency),
+    gasLimit: getDepositUniswapGasLimit(),
     gasPrice: toHex(gasPrice),
   };
 

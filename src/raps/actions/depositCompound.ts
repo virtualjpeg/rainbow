@@ -25,8 +25,8 @@ const NOOP = () => undefined;
 
 export const getDepositGasLimit = (inputCurrency: Asset) =>
   inputCurrency.address === 'eth'
-    ? ethUnits.basic_deposit_eth
-    : ethUnits.basic_deposit;
+    ? ethUnits.basic_deposit_compound_eth
+    : ethUnits.basic_deposit_compound;
 
 const depositCompound = async (
   wallet: Wallet,

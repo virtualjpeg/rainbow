@@ -15,7 +15,7 @@ import { ethUnits, ZapInAddress } from '@rainbow-me/references';
 import { add } from '@rainbow-me/utilities';
 import { contractUtils } from '@rainbow-me/utils';
 
-export const estimateDepositUniswapLP = async ({
+export const estimateDepositUniswap = async ({
   inputAmount,
   inputCurrency,
   outputAmount,
@@ -72,7 +72,7 @@ export const estimateDepositUniswapLP = async ({
   return reduce(gasLimits, (acc, limit) => add(acc, limit), '0');
 };
 
-const createDepositUniswapLPRap = async ({
+export const createDepositUniswapRap = async ({
   callback,
   depositToken,
   inputAmount,
@@ -144,5 +144,3 @@ const createDepositUniswapLPRap = async ({
   dispatch(rapsAddOrUpdate(newRap.id, newRap));
   return newRap;
 };
-
-export default createDepositUniswapLPRap;
