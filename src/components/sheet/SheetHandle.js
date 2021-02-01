@@ -9,7 +9,6 @@ const defaultColor = colors => colors.alpha(colors.blueGreyDark, 0.3);
 
 const Handle = styled.View.attrs({
   blurAmount: 20,
-  blurType: 'light',
 })`
   background-color: ${({ color, theme: { colors } }) =>
     color || defaultColor(colors)};
@@ -21,10 +20,14 @@ const Handle = styled.View.attrs({
 `;
 
 export default function SheetHandle({ showBlur, ...props }) {
+  const { isDarkMode } = useTheme();
+
   return (
     <Handle
       {...props}
       as={showBlur && ios ? VibrancyView : View}
+      blurType={isDarkMode ? 'regular' : 'light'}
+      isDarkMode={isDarkMode}
       showBlur={showBlur}
     />
   );
