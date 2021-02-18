@@ -30,7 +30,7 @@ import {
   useAccountSettings,
   useChartThrottledPoints,
   useDimensions,
-  useDPI,
+  useTokenIndex,
 } from '@rainbow-me/hooks';
 import { useNavigation } from '@rainbow-me/navigation';
 import Routes from '@rainbow-me/routes';
@@ -94,16 +94,15 @@ export default function TokenIndexExpandedState({ asset }) {
     genericAssets,
   }));
   const { nativeCurrency, nativeCurrencySymbol } = useAccountSettings();
-
-  const dpi = useDPI();
+  const tokenIndex = useTokenIndex(toLower(asset.address));
 
   const underlying = useMemo(() => {
-    if (!dpi) return [];
+    if (!tokenIndex) return [];
     const baseAsset = formatGenericAsset(
-      genericAssets[toLower(dpi?.base?.address)]
+      genericAssets[toLower(tokenIndex?.base?.address)]
     );
 
-    const underlyingAssets = dpi?.underlying.map(asset => {
+    const underlyingAssets = tokenIndex?.underlying.map(asset => {
       const genericAsset = genericAssets[toLower(asset?.address)];
       if (!genericAsset) return null;
       const assetWithPrice = formatGenericAsset(genericAsset);
@@ -133,7 +132,7 @@ export default function TokenIndexExpandedState({ asset }) {
       underlyingAssets.filter(asset => asset !== null),
       'percentageAllocation'
     ).reverse();
-  }, [dpi, genericAssets, nativeCurrency, nativeCurrencySymbol]);
+  }, [tokenIndex, genericAssets, nativeCurrency, nativeCurrencySymbol]);
 
   const hasUnderlying = underlying.length !== 0;
   const { layout } = useContext(ModalContext) || {};
@@ -255,7 +254,7 @@ export default function TokenIndexExpandedState({ asset }) {
           {underlying.map(item => (
             <Row
               as={ButtonPressAnimation}
-              key={`dpi-${item?.address}`}
+              key={`tokenIndex-${item?.address}`}
               onPress={() => handlePress(item)}
               scaleTo={0.95}
             >

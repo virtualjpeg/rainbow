@@ -11,7 +11,7 @@ export {
 export { default as emojis } from './emojis.json';
 export { default as erc20ABI } from './erc20-abi.json';
 export { default as ethUnits } from './ethereum-units.json';
-export { DPI_ADDRESS } from './indexes';
+export { DPI_ADDRESS, TOKEN_INDEXES } from './indexes';
 export { default as supportedNativeCurrencies } from './native-currencies.json';
 export { default as shitcoins } from './shitcoins.json';
 export {

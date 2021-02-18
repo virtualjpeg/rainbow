@@ -24,7 +24,7 @@ import { ImgixImage } from '@rainbow-me/images';
 import { setIsCoinListEdited } from '@rainbow-me/redux/editOptions';
 import { setOpenSmallBalances } from '@rainbow-me/redux/openStateSettings';
 import store from '@rainbow-me/redux/store';
-import { ETH_ICON_URL } from '@rainbow-me/references';
+import { ETH_ICON_URL, TOKEN_INDEXES } from '@rainbow-me/references';
 import Routes from '@rainbow-me/routes';
 import { ethereumUtils } from '@rainbow-me/utils';
 
@@ -50,14 +50,23 @@ const enhanceRenderItem = compose(
   withNavigation,
   withHandlers({
     onPress: ({ assetType, navigation }) => (item, params) => {
-      navigation.navigate(
-        ios ? Routes.EXPANDED_ASSET_SHEET : Routes.EXPANDED_ASSET_SCREEN,
-        {
-          asset: item,
-          type: assetType,
-          ...params,
-        }
-      );
+      let routeParams = {
+        asset: item,
+        type: assetType,
+        ...params,
+      };
+      let routeName = ios
+        ? Routes.EXPANDED_ASSET_SHEET
+        : Routes.EXPANDED_ASSET_SCREEN;
+      if (TOKEN_INDEXES.indexOf(item.address) !== -1) {
+        routeName = ios ? Routes.TOKEN_INDEX_SHEET : Routes.TOKEN_INDEX_SCREEN;
+        routeParams = {
+          ...routeParams,
+          fromDiscover: true,
+          type: 'token_index',
+        };
+      }
+      navigation.navigate(routeName, routeParams);
     },
   })
 );

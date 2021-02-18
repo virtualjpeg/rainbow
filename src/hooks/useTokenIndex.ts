@@ -18,7 +18,13 @@ import {
   DPI_ADDRESS,
 } from '@rainbow-me/references';
 
-const TOKENSETS_V2 = 'SetToken V2';
+interface ProtocolNames {
+  [address: string]: string;
+}
+const protocolNames: ProtocolNames = {
+  [DPI_ADDRESS]: 'SetToken V2',
+  [DPI_ADDRESS]: 'SetToken V2',
+};
 
 interface Token {
   amount: BigNumber;
@@ -40,7 +46,7 @@ const getTokenData = (token: Token): IndexToken => {
   };
 };
 
-export default function useDPI() {
+export default function useTokenIndex(tokenIndexAddress: string) {
   const dispatch = useDispatch();
   const { genericAssets } = useSelector(
     ({ data: { genericAssets } }: AppState) => ({
@@ -55,24 +61,28 @@ export default function useDPI() {
       web3Provider
     );
     const result = await adapterRegistry.getFinalFullTokenBalance(
-      TOKENSETS_V2,
-      DPI_ADDRESS
+      protocolNames[tokenIndexAddress],
+      tokenIndexAddress
     );
-    const defiPulseData = {
+
+    const tokenIndexData = {
       base: getTokenData(result.base),
       underlying: map(result.underlying, token => getTokenData(token)),
     };
-    const underlyingAddresses = defiPulseData.underlying.map(
+
+    const underlyingAddresses = tokenIndexData.underlying.map(
       token => token.address
     );
-    dispatch(emitAssetRequest(underlyingAddresses));
 
-    saveDefiPulse(defiPulseData);
-    return defiPulseData;
-  }, [dispatch]);
+    dispatch(emitAssetRequest(underlyingAddresses));
+    // if (tokenIndexAddress === DPI_ADDRESS) {
+    saveDefiPulse(tokenIndexData);
+    // }
+    return tokenIndexData;
+  }, [dispatch, tokenIndexAddress]);
 
   const { data } = useQuery(
-    !isEmpty(genericAssets) && ['defiPulse'],
+    !isEmpty(genericAssets) && [`tokenIndexData${tokenIndexAddress}`],
     fetchDPIData
   );
 
