@@ -1,12 +1,22 @@
-export const BCP_ADDRESS = '0xe4f726adc8e89c6a6017f01eada77865db22da14';
-export const DPI_ADDRESS = '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b';
-export const DEFI5_ADDRESS = '0xfa6de2697d59e88ed7fc4dfe5a33dac43565ea41';
 export const CC10_ADDRESS = '0x17ac188e09a7890a1844e5e65471fe8b0ccfadf3';
+export const DEFI5_ADDRESS = '0xfa6de2697d59e88ed7fc4dfe5a33dac43565ea41';
 export const PIPT_ADDRESS = '0x26607ac599266b21d13c7acf7942c7701a8b699c';
 export const YETI_ADDRESS = '0xb4bebd34f6daafd808f73de0d10235a92fbb6c3d';
+
+// Defi Pulse Index
+export const DPI_ADDRESS = '0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b';
+
+// PieDAO
+export const BCP_ADDRESS = '0xe4f726adc8e89c6a6017f01eada77865db22da14';
 export const DEFIPLUSL_ADDRESS = '0x78f225869c08d478c34e5f645d07a87d3fe8eb78';
 export const DEFIPLUSS_ADDRESS = '0xad6a626ae2b43dcb1b39430ce496d2fa0365ba9c';
 export const DEFIPLUSPLUS_ADDRESS =
   '0x8d1ce361eb68e9e05573443c407d4a3bed23b033';
 
-export const TOKEN_INDEXES = [DPI_ADDRESS, BCP_ADDRESS, DEFIPLUSPLUS_ADDRESS];
+export const TOKEN_INDEXES = [
+  DPI_ADDRESS,
+  BCP_ADDRESS,
+  DEFIPLUSPLUS_ADDRESS,
+  DEFIPLUSL_ADDRESS,
+  DEFIPLUSS_ADDRESS,
+];

@@ -13,6 +13,8 @@ export { default as erc20ABI } from './erc20-abi.json';
 export { default as ethUnits } from './ethereum-units.json';
 export {
   BCP_ADDRESS,
+  DEFIPLUSL_ADDRESS,
+  DEFIPLUSS_ADDRESS,
   DEFIPLUSPLUS_ADDRESS,
   DPI_ADDRESS,
   TOKEN_INDEXES,

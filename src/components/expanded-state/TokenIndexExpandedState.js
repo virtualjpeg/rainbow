@@ -162,7 +162,7 @@ export default function TokenIndexExpandedState({ asset }) {
     showChart,
     throttledData,
   } = useChartThrottledPoints({
-    asset: assetWithPrice,
+    asset: assetWithPrice || asset,
     heightWithChart: heightWithChart - (!asset?.balance && 68),
     heightWithoutChart: heightWithoutChart - (!asset?.balance && 68),
   });

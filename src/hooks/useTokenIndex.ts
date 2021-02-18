@@ -15,7 +15,9 @@ import { IndexToken } from '@rainbow-me/entities';
 import {
   BCP_ADDRESS,
   DEFI_SDK_ADAPTER_REGISTRY_ADDRESS,
+  DEFIPLUSL_ADDRESS,
   DEFIPLUSPLUS_ADDRESS,
+  DEFIPLUSS_ADDRESS,
   defiSdkAdapterRegistryABI,
   DPI_ADDRESS,
 } from '@rainbow-me/references';
@@ -25,7 +27,10 @@ interface ProtocolNames {
 }
 const protocolNames: ProtocolNames = {
   [BCP_ADDRESS]: 'PieDAO Pie Token',
+  [DEFIPLUSL_ADDRESS]: 'PieDAO Pie Token',
   [DEFIPLUSPLUS_ADDRESS]: 'PieDAO Pie Token',
+  [DEFIPLUSPLUS_ADDRESS]: 'PieDAO Pie Token',
+  [DEFIPLUSS_ADDRESS]: 'PieDAO Pie Token',
   [DPI_ADDRESS]: 'SetToken V2',
 };
 
