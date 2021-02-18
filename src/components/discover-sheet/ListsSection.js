@@ -28,8 +28,10 @@ import {
   useAccountSettings,
   useUserLists,
 } from '@rainbow-me/hooks';
-import { useNavigation } from '@rainbow-me/navigation';
-import Routes from '@rainbow-me/routes';
+import {
+  navigateToAssetExpandedState,
+  useNavigation,
+} from '@rainbow-me/navigation';
 import { ethereumUtils } from '@rainbow-me/utils';
 
 const fetchTrendingAddresses = async () => {
@@ -203,15 +205,12 @@ export default function ListSection() {
 
   const handlePress = useCallback(
     item => {
-      navigate(
-        ios ? Routes.EXPANDED_ASSET_SHEET : Routes.EXPANDED_ASSET_SCREEN,
-        {
-          asset: item,
-          fromDiscover: true,
-          longFormHeight: initialChartExpandedStateSheetHeight,
-          type: 'token',
-        }
-      );
+      navigateToAssetExpandedState(navigate, {
+        asset: item,
+        fromDiscover: true,
+        longFormHeight: initialChartExpandedStateSheetHeight,
+        type: 'token',
+      });
     },
     [navigate]
   );

@@ -13,9 +13,11 @@ import { FlexItem, Row } from '../layout';
 import { Text } from '../text';
 import { readableUniswapSelector } from '@rainbow-me/helpers/uniswapLiquidityTokenInfoSelector';
 import { useAccountSettings } from '@rainbow-me/hooks';
-import { useNavigation } from '@rainbow-me/navigation';
+import {
+  navigateToAssetExpandedState,
+  useNavigation,
+} from '@rainbow-me/navigation';
 import { parseAssetsNative } from '@rainbow-me/parsers';
-import Routes from '@rainbow-me/routes';
 
 const Content = styled(ButtonPressAnimation)`
   top: 0;
@@ -163,7 +165,7 @@ export default function UniswapPoolListRow({ assetType, item, ...props }) {
         nativeCurrency
       )[0];
     }
-    navigate(Routes.EXPANDED_ASSET_SHEET, {
+    navigateToAssetExpandedState(navigate, {
       asset: poolAsset,
       cornerRadius: 10,
       fromDiscover: true,

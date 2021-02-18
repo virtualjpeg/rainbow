@@ -68,7 +68,6 @@ export default function useChartThrottledPoints({
   if (isPool) {
     assetForColor = asset?.tokens?.[0] || asset;
   }
-
   const color = useColorForAsset(assetForColor);
 
   const [isFetchingInitially, setIsFetchingInitially] = useState(true);

@@ -30,7 +30,10 @@ import {
   useUniswapAssets,
   useUniswapAssetsInWallet,
 } from '@rainbow-me/hooks';
-import { useNavigation } from '@rainbow-me/navigation';
+import {
+  navigateToAssetExpandedState,
+  useNavigation,
+} from '@rainbow-me/navigation';
 import Routes from '@rainbow-me/routes';
 import { filterList } from '@rainbow-me/utils';
 
@@ -184,17 +187,12 @@ export default function DiscoverSearch() {
   const handlePress = useCallback(
     item => {
       const asset = allAssets.find(asset => item.address === asset.address);
-
       dispatch(emitAssetRequest(item.address));
-
-      navigate(
-        ios ? Routes.EXPANDED_ASSET_SHEET : Routes.EXPANDED_ASSET_SCREEN,
-        {
-          asset: asset || item,
-          longFormHeight: initialChartExpandedStateSheetHeight,
-          type: 'token',
-        }
-      );
+      navigateToAssetExpandedState(navigate, {
+        asset: asset || item,
+        longFormHeight: initialChartExpandedStateSheetHeight,
+        type: 'token',
+      });
     },
     [allAssets, dispatch, navigate]
   );

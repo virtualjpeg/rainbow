@@ -13,7 +13,9 @@ import { emitAssetRequest } from '../redux/explorer';
 import { AppState } from '../redux/store';
 import { IndexToken } from '@rainbow-me/entities';
 import {
+  BCP_ADDRESS,
   DEFI_SDK_ADAPTER_REGISTRY_ADDRESS,
+  DEFIPLUSPLUS_ADDRESS,
   defiSdkAdapterRegistryABI,
   DPI_ADDRESS,
 } from '@rainbow-me/references';
@@ -22,7 +24,8 @@ interface ProtocolNames {
   [address: string]: string;
 }
 const protocolNames: ProtocolNames = {
-  [DPI_ADDRESS]: 'SetToken V2',
+  [BCP_ADDRESS]: 'PieDAO Pie Token',
+  [DEFIPLUSPLUS_ADDRESS]: 'PieDAO Pie Token',
   [DPI_ADDRESS]: 'SetToken V2',
 };
 
@@ -54,12 +57,13 @@ export default function useTokenIndex(tokenIndexAddress: string) {
     })
   );
 
-  const fetchDPIData = useCallback(async () => {
+  const fetchTokenIndexData = useCallback(async () => {
     const adapterRegistry = new Contract(
       DEFI_SDK_ADAPTER_REGISTRY_ADDRESS,
       defiSdkAdapterRegistryABI,
       web3Provider
     );
+
     const result = await adapterRegistry.getFinalFullTokenBalance(
       protocolNames[tokenIndexAddress],
       tokenIndexAddress
@@ -83,7 +87,7 @@ export default function useTokenIndex(tokenIndexAddress: string) {
 
   const { data } = useQuery(
     !isEmpty(genericAssets) && [`tokenIndexData${tokenIndexAddress}`],
-    fetchDPIData
+    fetchTokenIndexData
   );
 
   return data || queryCache.getQueryData(DEFI_PULSE_FROM_STORAGE);

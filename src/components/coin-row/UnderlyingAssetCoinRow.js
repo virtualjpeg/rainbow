@@ -1,7 +1,7 @@
 import React from 'react';
 import { magicMemo } from '../../utils';
 import { CoinIcon } from '../coin-icon';
-import { Centered, Row } from '../layout';
+import { Row } from '../layout';
 import { Text } from '../text';
 
 const UnderlyingCoinIconSize = 20;
@@ -17,14 +17,14 @@ const UnderlyingAssetCoinRow = ({
 
   return (
     <Row marginBottom={19}>
-      <Centered marginRight={6}>
+      <Row align="start" justify="start" marginRight={6} marginTop={2}>
         <CoinIcon
           address={address}
           size={UnderlyingCoinIconSize}
           symbol={symbol}
         />
-      </Centered>
-      <Row>
+      </Row>
+      <Row marginRight={23}>
         <Text
           color={colors.alpha(colors.blueGreyDark, 0.7)}
           size="large"

@@ -32,8 +32,10 @@ import {
   useDimensions,
   useTokenIndex,
 } from '@rainbow-me/hooks';
-import { useNavigation } from '@rainbow-me/navigation';
-import Routes from '@rainbow-me/routes';
+import {
+  navigateToAssetExpandedState,
+  useNavigation,
+} from '@rainbow-me/navigation';
 import { position } from '@rainbow-me/styles';
 import {
   convertRawAmountToNativeDisplay,
@@ -41,7 +43,10 @@ import {
   handleSignificantDecimals,
   multiply,
 } from '@rainbow-me/utilities';
-import { ethereumUtils } from '@rainbow-me/utils';
+import {
+  ethereumUtils,
+  pseudoRandomArrayItemFromString,
+} from '@rainbow-me/utils';
 import { ModalContext } from 'react-native-cool-modals/NativeStackView';
 import ShadowStack from 'react-native-shadow-stack';
 
@@ -176,15 +181,11 @@ export default function TokenIndexExpandedState({ asset }) {
       const asset =
         ethereumUtils.getAsset(allAssets, toLower(item.address)) ||
         ethereumUtils.formatGenericAsset(genericAssets[toLower(item.address)]);
-
-      navigate(
-        ios ? Routes.EXPANDED_ASSET_SHEET : Routes.EXPANDED_ASSET_SCREEN,
-        {
-          asset,
-          longFormHeight: initialChartExpandedStateSheetHeight,
-          type: 'token',
-        }
-      );
+      navigateToAssetExpandedState(navigate, {
+        asset,
+        longFormHeight: initialChartExpandedStateSheetHeight,
+        type: 'token',
+      });
     },
     [allAssets, genericAssets, navigate]
   );
@@ -251,82 +252,87 @@ export default function TokenIndexExpandedState({ asset }) {
           </Column>
         </Row>
         <Column marginBottom={40} marginHorizontal={19} marginTop={12}>
-          {underlying.map(item => (
-            <Row
-              as={ButtonPressAnimation}
-              key={`tokenIndex-${item?.address}`}
-              onPress={() => handlePress(item)}
-              scaleTo={0.95}
-            >
-              <Column align="start" flex={1}>
-                <UnderlyingAssetCoinRow {...item} />
-              </Column>
-              <Column aling="end">
-                <Row key={`allocation-${item.symbol}`}>
-                  <Text
-                    align="right"
-                    color={colors.alpha(colors.blueGreyDark, 0.7)}
-                    letterSpacing="roundedTight"
-                    size="large"
-                    weight="medium"
-                  >
-                    {item.pricePerUnitFormatted}
-                  </Text>
-                  <Column
-                    align="end"
-                    backgroundColor={colors.white}
-                    height={30}
-                    marginLeft={6}
-                  >
-                    <Column
-                      height={16}
-                      marginTop={android ? 8 : 3}
-                      width={item.percentageAllocation * 2}
+          {underlying.map(item => {
+            const itemColor =
+              item?.color ||
+              pseudoRandomArrayItemFromString(item.address, colors.avatarColor);
+            return (
+              <Row
+                as={ButtonPressAnimation}
+                key={`tokenIndex-${item?.address}`}
+                onPress={() => handlePress(item)}
+                scaleTo={0.95}
+              >
+                <Column align="start" flex={1}>
+                  <UnderlyingAssetCoinRow {...item} />
+                </Column>
+                <Column aling="end">
+                  <Row key={`allocation-${item.symbol}`}>
+                    <Text
+                      align="right"
+                      color={colors.alpha(colors.blueGreyDark, 0.7)}
+                      letterSpacing="roundedTight"
+                      size="large"
+                      weight="medium"
                     >
-                      <ShadowStack
-                        backgroundColor={item.color}
-                        borderRadius={8}
-                        shadows={[
-                          [
-                            0,
-                            3,
-                            9,
-                            isDarkMode ? colors.shadow : item.color,
-                            0.2,
-                          ],
-                        ]}
-                        style={{
-                          height: 16,
-                          position: 'absolute',
-                          width: '100%',
-                        }}
-                      />
-                      <View
-                        style={{
-                          borderRadius: 8,
-                          height: 16,
-                          overflow: 'hidden',
-                          width: '100%',
-                        }}
+                      {item.pricePerUnitFormatted}
+                    </Text>
+                    <Column
+                      align="end"
+                      backgroundColor={colors.white}
+                      height={30}
+                      marginLeft={6}
+                    >
+                      <Column
+                        height={16}
+                        marginTop={android ? 8 : 3}
+                        width={item.percentageAllocation * 2}
                       >
-                        <LinearGradient
-                          colors={[
-                            colors.alpha(item.color, isDarkMode ? 1 : 0.5),
-                            colors.alpha(item.color, isDarkMode ? 0.5 : 1),
+                        <ShadowStack
+                          backgroundColor={itemColor}
+                          borderRadius={8}
+                          shadows={[
+                            [
+                              0,
+                              3,
+                              9,
+                              isDarkMode ? colors.shadow : itemColor,
+                              0.2,
+                            ],
                           ]}
-                          end={{ x: 1, y: 0.5 }}
-                          overflow="hidden"
-                          pointerEvents="none"
-                          start={{ x: 0, y: 0.5 }}
-                          style={position.coverAsObject}
+                          style={{
+                            height: 16,
+                            position: 'absolute',
+                            width: '100%',
+                          }}
                         />
-                      </View>
+                        <View
+                          style={{
+                            borderRadius: 8,
+                            height: 16,
+                            overflow: 'hidden',
+                            width: '100%',
+                          }}
+                        >
+                          <LinearGradient
+                            colors={[
+                              colors.alpha(itemColor, isDarkMode ? 1 : 0.5),
+                              colors.alpha(itemColor, isDarkMode ? 0.5 : 1),
+                            ]}
+                            end={{ x: 1, y: 0.5 }}
+                            overflow="hidden"
+                            pointerEvents="none"
+                            start={{ x: 0, y: 0.5 }}
+                            style={position.coverAsObject}
+                          />
+                        </View>
+                      </Column>
                     </Column>
-                  </Column>
-                </Row>
-              </Column>
-            </Row>
-          ))}
+                  </Row>
+                </Column>
+              </Row>
+            );
+          })}
         </Column>
       </SlackSheet>
     </Fragment>

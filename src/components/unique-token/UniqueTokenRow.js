@@ -2,11 +2,13 @@ import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { useWallets } from '../../hooks';
-import { useNavigation } from '../../navigation/Navigation';
+import {
+  navigateToAssetExpandedState,
+  useNavigation,
+} from '../../navigation/Navigation';
 import { deviceUtils, magicMemo } from '../../utils';
 import { Row } from '../layout';
 import UniqueTokenCard from './UniqueTokenCard';
-import Routes from '@rainbow-me/routes';
 import { padding, position } from '@rainbow-me/styles';
 
 const CardMargin = 15;
@@ -32,14 +34,11 @@ const UniqueTokenRow = magicMemo(({ item }) => {
 
   const handleItemPress = useCallback(
     asset =>
-      navigate(
-        ios ? Routes.EXPANDED_ASSET_SHEET : Routes.EXPANDED_ASSET_SCREEN,
-        {
-          asset,
-          isReadOnlyWallet,
-          type: 'unique_token',
-        }
-      ),
+      navigateToAssetExpandedState(navigate, {
+        asset,
+        isReadOnlyWallet,
+        type: 'unique_token',
+      }),
     [isReadOnlyWallet, navigate]
   );
 

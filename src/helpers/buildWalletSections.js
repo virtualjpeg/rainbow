@@ -15,7 +15,10 @@ import { AssetListItemSkeleton } from '../components/asset-list';
 import { BalanceCoinRow } from '../components/coin-row';
 import { UniswapInvestmentRow } from '../components/investment-cards';
 import { CollectibleTokenFamily } from '../components/token-family';
-import { withNavigation } from '../navigation/Navigation';
+import {
+  navigateToAssetExpandedState,
+  withNavigation,
+} from '../navigation/Navigation';
 import { compose, withHandlers } from '../utils/recompactAdapters';
 import { buildCoinsList, buildUniqueTokenList } from './assets';
 import networkTypes from './networkTypes';
@@ -24,8 +27,7 @@ import { ImgixImage } from '@rainbow-me/images';
 import { setIsCoinListEdited } from '@rainbow-me/redux/editOptions';
 import { setOpenSmallBalances } from '@rainbow-me/redux/openStateSettings';
 import store from '@rainbow-me/redux/store';
-import { ETH_ICON_URL, TOKEN_INDEXES } from '@rainbow-me/references';
-import Routes from '@rainbow-me/routes';
+import { ETH_ICON_URL } from '@rainbow-me/references';
 import { ethereumUtils } from '@rainbow-me/utils';
 
 const allAssetsSelector = state => state.allAssets;
@@ -49,24 +51,12 @@ const uniswapTotalSelector = state => state.uniswapTotal;
 const enhanceRenderItem = compose(
   withNavigation,
   withHandlers({
-    onPress: ({ assetType, navigation }) => (item, params) => {
-      let routeParams = {
+    onPress: ({ navigation, assetType }) => (item, params) => {
+      navigateToAssetExpandedState(navigation.navigate, {
         asset: item,
         type: assetType,
         ...params,
-      };
-      let routeName = ios
-        ? Routes.EXPANDED_ASSET_SHEET
-        : Routes.EXPANDED_ASSET_SCREEN;
-      if (TOKEN_INDEXES.indexOf(item.address) !== -1) {
-        routeName = ios ? Routes.TOKEN_INDEX_SHEET : Routes.TOKEN_INDEX_SCREEN;
-        routeParams = {
-          ...routeParams,
-          fromDiscover: true,
-          type: 'token_index',
-        };
-      }
-      navigation.navigate(routeName, routeParams);
+      });
     },
   })
 );

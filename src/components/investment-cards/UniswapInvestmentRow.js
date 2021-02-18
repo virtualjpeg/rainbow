@@ -9,8 +9,10 @@ import BalanceText from '../coin-row/BalanceText';
 import CoinName from '../coin-row/CoinName';
 import { initialLiquidityPoolExpandedStateSheetHeight } from '../expanded-state/LiquidityPoolExpandedState';
 import { FlexItem, Row } from '../layout';
-import { useNavigation } from '@rainbow-me/navigation';
-import Routes from '@rainbow-me/routes';
+import {
+  navigateToAssetExpandedState,
+  useNavigation,
+} from '@rainbow-me/navigation';
 
 const formatPercentageString = percentString =>
   percentString ? percentString.toString().split('-').join('- ') : '-';
@@ -90,7 +92,7 @@ export default function UniswapInvestmentRow({ assetType, item, ...props }) {
   const { navigate } = useNavigation();
 
   const handleOpenExpandedState = useCallback(() => {
-    navigate(Routes.EXPANDED_ASSET_SHEET, {
+    navigateToAssetExpandedState(navigate, {
       asset: item,
       cornerRadius: 10,
       longFormHeight: initialLiquidityPoolExpandedStateSheetHeight,

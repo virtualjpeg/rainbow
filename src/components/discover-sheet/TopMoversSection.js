@@ -5,8 +5,10 @@ import { MarqueeList } from '../list';
 import { Text } from '../text';
 import EdgeFade from './EdgeFade';
 import { useTopMovers } from '@rainbow-me/hooks';
-import { useNavigation } from '@rainbow-me/navigation';
-import Routes from '@rainbow-me/routes';
+import {
+  navigateToAssetExpandedState,
+  useNavigation,
+} from '@rainbow-me/navigation';
 
 export default function TopMoversSection() {
   const { gainers = [], losers = [] } = useTopMovers() || {};
@@ -14,15 +16,12 @@ export default function TopMoversSection() {
 
   const handlePress = useCallback(
     asset => {
-      navigate(
-        ios ? Routes.EXPANDED_ASSET_SHEET : Routes.EXPANDED_ASSET_SCREEN,
-        {
-          asset,
-          fromDiscover: true,
-          longFormHeight: initialChartExpandedStateSheetHeight,
-          type: 'token',
-        }
-      );
+      navigateToAssetExpandedState(navigate, {
+        asset,
+        fromDiscover: true,
+        longFormHeight: initialChartExpandedStateSheetHeight,
+        type: 'token',
+      });
     },
     [navigate]
   );

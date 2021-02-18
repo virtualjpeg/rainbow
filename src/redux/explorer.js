@@ -17,7 +17,11 @@ import { updateTopMovers } from './topMovers';
 import { disableCharts, forceFallbackProvider } from '@rainbow-me/config/debug';
 import ChartTypes from '@rainbow-me/helpers/chartTypes';
 import NetworkTypes from '@rainbow-me/helpers/networkTypes';
-import { DPI_ADDRESS, ETH_ADDRESS } from '@rainbow-me/references';
+import {
+  DPI_ADDRESS,
+  ETH_ADDRESS,
+  TOKEN_INDEXES,
+} from '@rainbow-me/references';
 import logger from 'logger';
 
 // -- Constants --------------------------------------- //
@@ -87,7 +91,7 @@ const addressSubscription = (address, currency, action = 'subscribe') => [
 ];
 
 const assetPricesSubscription = (pairs, currency, action = 'subscribe') => {
-  const assetCodes = concat(keys(pairs), ETH_ADDRESS, DPI_ADDRESS);
+  const assetCodes = concat(keys(pairs), ETH_ADDRESS, TOKEN_INDEXES);
   return [
     action,
     {

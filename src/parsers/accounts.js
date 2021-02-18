@@ -27,7 +27,7 @@ export const parseAccountAssets = (data, uniqueTokens) => {
 };
 
 // eslint-disable-next-line no-useless-escape
-const sanitize = s => s.replace(/[^a-z0-9áéíóúñü \.,_@:-]/gim, '');
+const sanitize = s => s.replace(/[^a-z0-9áéíóúñü \.,_@:+-]/gim, '');
 
 export const parseAssetName = (metadata, name) => {
   if (metadata?.name) return metadata?.name;

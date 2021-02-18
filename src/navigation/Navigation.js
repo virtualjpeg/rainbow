@@ -8,7 +8,8 @@ import { get } from 'lodash';
 import React from 'react';
 import { Value } from 'react-native-reanimated';
 import { useCallbackOne } from 'use-memo-one';
-import { NATIVE_ROUTES } from '@rainbow-me/routes';
+import { TOKEN_INDEXES } from '../references/indexes';
+import Routes, { NATIVE_ROUTES } from '@rainbow-me/routes';
 
 let TopLevelNavigationRef = null;
 const transitionPosition = new Value(0);
@@ -95,6 +96,23 @@ export function navigate(oldNavigate, ...args) {
   } else {
     oldNavigate(...args);
   }
+}
+
+export function navigateToAssetExpandedState(navigate, params) {
+  let routeParams = {
+    ...params,
+  };
+  let routeName = ios
+    ? Routes.EXPANDED_ASSET_SHEET
+    : Routes.EXPANDED_ASSET_SCREEN;
+  if (TOKEN_INDEXES.indexOf(routeParams?.asset?.address) !== -1) {
+    routeName = ios ? Routes.TOKEN_INDEX_SHEET : Routes.TOKEN_INDEX_SCREEN;
+    routeParams = {
+      ...routeParams,
+      type: 'token_index',
+    };
+  }
+  navigate(routeName, routeParams);
 }
 
 export function getActiveRoute() {
