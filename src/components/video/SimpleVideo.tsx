@@ -103,6 +103,7 @@ export default function SimpleVideo({
       <StyledBackground />
       <StyledVideo
         controls
+        muted
         onLoad={() => setLoading(false)}
         ref={ref}
         repeat
