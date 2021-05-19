@@ -205,6 +205,7 @@ export const buildUniqueTokenList = (uniqueTokens, selectedShowcaseTokens) => {
       }
     }
     let tokens = compact(tokensRow);
+    //tokens = tokens.map((r, id) => (id === 0 ? grouped[families[i]] : []));
     tokens = chunk(tokens, tokens.length > 25 ? 4 : 25);
     // eslint-disable-next-line no-loop-func
     tokens.forEach((tokenChunk, index) => {

@@ -25,6 +25,10 @@ const Container = styled.View`
 `;
 
 const Content = styled(Transitioning.View).attrs({ transition })`
+  background-color: red;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
   padding-top: ${({ areChildrenVisible }) =>
     areChildrenVisible ? TokenFamilyWrapPaddingTop : 0};
 `;
@@ -37,6 +41,7 @@ export default function TokenFamilyWrap({
   item,
   onToggle,
   renderItem,
+  children,
   title,
   ...props
 }) {
@@ -71,8 +76,12 @@ export default function TokenFamilyWrap({
           title={title}
         />
       ) : null}
-      <Content areChildrenVisible={areChildrenVisible} ref={transitionRef}>
-        {areChildrenVisible ? times(item.length, renderItem) : null}
+      <Content
+        areChildrenVisible={areChildrenVisible}
+        ref={transitionRef}
+        width={200}
+      >
+        {areChildrenVisible && children}
       </Content>
     </Container>
   );
