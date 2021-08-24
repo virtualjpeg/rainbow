@@ -18,7 +18,7 @@ export const apiGetAccountUniqueTokens = async (network, address, page) => {
     const isPolygon = network === NetworkTypes.polygon;
     const offset = page * UNIQUE_TOKENS_LIMIT_PER_PAGE;
     const url = `https://api.opensea.io/api/v1/assets?exclude_currencies=true&owner=${address}&limit=${UNIQUE_TOKENS_LIMIT_PER_PAGE}&offset=${offset}`;
-    const urlV2 = `https://api.opensea.io/api/v2/assets/matic?exclude_currencies=true&owner=${address}&limit=${UNIQUE_TOKENS_LIMIT_PER_PAGE}&offset=${offset}`;
+    const urlV2 = `https://api.opensea.io/api/v2/assets/matic?exclude_currencies=true&owner_address=${address}&limit=${UNIQUE_TOKENS_LIMIT_PER_PAGE}&offset=${offset}`;
     const data = await api.get(isPolygon ? urlV2 : url);
     return parseAccountUniqueTokens(data, network);
   } catch (error) {
