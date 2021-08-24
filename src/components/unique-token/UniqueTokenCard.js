@@ -78,9 +78,9 @@ const UniqueTokenCard = ({
         {item.network === AssetType.polygon && (
           <ChainBadge
             assetType={AssetType.polygon}
-            badgeXPosition={-6}
-            badgeYPosition={-10}
-            size="large"
+            badgeXPosition={2}
+            badgeYPosition={4}
+            size="mediumLarge"
           />
         )}
       </Content>

@@ -26,6 +26,10 @@ const sizeConfigs = {
     containerSize: 44,
     iconSize: 20,
   },
+  mediumLarge: {
+    containerSize: 64,
+    iconSize: 40,
+  },
   small: {
     containerSize: 44,
     iconSize: 20,
