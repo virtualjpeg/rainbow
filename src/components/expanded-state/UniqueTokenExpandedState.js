@@ -85,7 +85,7 @@ const UniqueTokenExpandedState = ({ asset, external }) => {
 
   const handlePressShare = useCallback(() => {
     Share.share({
-      title: `Share ${buildUniqueTokenName(asset)} Info`,
+      title: `Share ${buildUniqueTokenName(asset)}`,
       url: buildRainbowUrl(asset, accountENS, accountAddress),
     });
   }, [accountAddress, accountENS, asset]);
@@ -139,7 +139,7 @@ const UniqueTokenExpandedState = ({ asset, external }) => {
               {description}
             </NftExpandedStateSection>
           )}
-          {!!traits.length && (
+          {!!traits?.length && (
             <NftExpandedStateSection paddingBottom={14} title="Attributes">
               <UniqueTokenAttributes {...asset} />
             </NftExpandedStateSection>
