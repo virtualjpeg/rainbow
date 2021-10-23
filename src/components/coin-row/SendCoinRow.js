@@ -10,6 +10,7 @@ import { ButtonPressAnimation } from '../animations';
 import { Text } from '../text';
 import CoinName from './CoinName';
 import CoinRow from './CoinRow';
+import { isL2Network } from '@rainbow-me/handlers/web3';
 import { useColorForAsset } from '@rainbow-me/hooks';
 import { padding } from '@rainbow-me/styles';
 
@@ -18,13 +19,7 @@ const isTinyPhone = deviceUtils.dimensions.height <= 568;
 const selectedHeight = isTinyPhone ? 50 : android || isSmallPhone ? 64 : 70;
 
 const containerStyles = `
-  padding-left: 19;
-  padding-top: 19;
-`;
-
-const containerSelectedStyles = css`
-  ${isTinyPhone ? padding(10, 0, 0) : isSmallPhone ? padding(12) : padding(15)};
-  height: ${selectedHeight};
+  padding-top: ${android ? 9 : 19};
 `;
 
 const NativeAmountBubble = styled(LinearGradient).attrs(
@@ -72,14 +67,18 @@ const BottomRow = ({
     >
       {showNativeValue
         ? `${fiatValue} available`
-        : `${balance?.display}${selected ? ' available' : ''}`}
+        : balance?.display
+        ? `${balance?.display}${selected ? ' available' : ''}`
+        : 'Fetching balances...'}
     </Text>
   );
 };
 
 const TopRow = ({ item, name, selected }) => {
   const { colors } = useTheme();
-  const colorForAsset = useColorForAsset(item, undefined, false);
+  const address = item?.mainnet_address || item?.address;
+
+  const colorForAsset = useColorForAsset({ address });
 
   return (
     <CoinName
@@ -124,11 +123,25 @@ const SendCoinRow = magicMemo(
       ? TouchableWithoutFeedback
       : ButtonPressAnimation;
 
+    const isL2 = useMemo(() => {
+      return isL2Network(item?.type);
+    }, [item?.type]);
+
+    const containerSelectedStyles = css`
+      ${isTinyPhone
+        ? padding(10, 0, 0)
+        : isSmallPhone
+        ? padding(12, 12, 12, isL2 ? 17 : 12)
+        : padding(15, 15, 15, isL2 ? 19 : 15)};
+      height: ${selectedHeight};
+    `;
+
     return (
       <Wrapper height={rowHeight} onPress={onPress} scaleTo={0.96}>
         <CoinRow
           {...item}
           {...props}
+          badgeYPosition={0}
           bottomRowRender={BottomRow}
           containerStyles={selected ? containerSelectedStyles : containerStyles}
           isHidden={false}

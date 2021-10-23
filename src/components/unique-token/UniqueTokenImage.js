@@ -1,15 +1,12 @@
 import { toLower } from 'lodash';
 import React, { Fragment, useCallback, useState } from 'react';
-import { SvgCssUri } from 'react-native-svg';
 import styled from 'styled-components';
 import { useTheme } from '../../context/ThemeContext';
 import { buildUniqueTokenName } from '../../helpers/assets';
-import {
-  ENS_NFT_CONTRACT_ADDRESS,
-  UNIV3_NFT_CONTRACT_ADDRESS,
-} from '../../references';
+import { ENS_NFT_CONTRACT_ADDRESS } from '../../references';
 import { magicMemo } from '../../utils';
 import { Centered } from '../layout';
+import RemoteSvg from '../svg/RemoteSvg';
 import { Monospace, Text } from '../text';
 import isSupportedUriExtension from '@rainbow-me/helpers/isSupportedUriExtension';
 import { useDimensions } from '@rainbow-me/hooks';
@@ -53,30 +50,35 @@ const UniqueTokenImage = ({
   lowResUrl,
   resizeMode = ImgixImage.resizeMode.cover,
   small,
+  size,
 }) => {
   const { isTinyPhone } = useDimensions();
   const isENS =
     toLower(item.asset_contract.address) === toLower(ENS_NFT_CONTRACT_ADDRESS);
-  const isUNIv3 =
-    toLower(item.asset_contract.address) ===
-    toLower(UNIV3_NFT_CONTRACT_ADDRESS);
-  const image = isENS ? `${item.image_url}=s1` : imageUrl;
+  const isSVG = isSupportedUriExtension(imageUrl, ['.svg']);
+  const image = isENS && !isSVG ? `${item.image_url}=s1` : imageUrl;
   const [error, setError] = useState(null);
   const handleError = useCallback(error => setError(error), [setError]);
   const { isDarkMode, colors } = useTheme();
-  // UNI v3 NFTs are animated so we can't support those
-  const isSVG = !isUNIv3 && isSupportedUriExtension(imageUrl, ['.svg']);
   const [loadedImg, setLoadedImg] = useState(false);
   const onLoad = useCallback(() => setLoadedImg(true), [setLoadedImg]);
+  const remoteSvgStyle = useMemo(() => {
+    // I know... This shit is mad weird :|
+    // I know... This shit even weirder but it's ENS's fault :/
+    const style =
+      isENS && isSVG
+        ? { height: size * 1.1 + 0.1, width: size * 1.1 + 0.1 }
+        : { height: size + 0.1, width: size + 0.1 };
+    return style;
+  }, [isENS, isSVG, size]);
 
   return (
     <Centered backgroundColor={backgroundColor} style={position.coverAsObject}>
-      {isSVG ? (
-        <SvgCssUri
-          height="100%"
-          style={position.coverAsObject}
+      {isSVG && !error ? (
+        <RemoteSvg
+          onError={handleError}
+          style={remoteSvgStyle}
           uri={imageUrl}
-          width="100%"
         />
       ) : imageUrl && !error ? (
         <Fragment>
@@ -87,7 +89,7 @@ const UniqueTokenImage = ({
             source={{ uri: image }}
             style={position.coverAsObject}
           >
-            {isENS && (
+            {isENS && !isSVG && (
               <ENSText isTinyPhone={isTinyPhone} small={small}>
                 {item.name}
               </ENSText>

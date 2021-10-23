@@ -1,6 +1,6 @@
 import React from 'react';
-import Animated, { Easing } from 'react-native-reanimated';
-import { toRad, useTimingTransition } from 'react-native-redash';
+import Animated, { EasingNode } from 'react-native-reanimated';
+import { toRad, useTimingTransition } from 'react-native-redash/src/v1';
 import styled from 'styled-components';
 import CaretImageSource from '../../assets/family-dropdown-arrow.png';
 import { ButtonPressAnimation, interpolate } from '../animations';
@@ -51,11 +51,11 @@ const TitleText = styled(TruncatedText).attrs({
   letterSpacing: 'roundedMedium',
   lineHeight: 'normal',
   size: 'large',
-  weight: 'bold',
+  weight: 'heavy',
 })`
   flex: 1;
   margin-bottom: 1;
-  padding-left: ${({ isShowcase }) => (!isShowcase ? 9 : 0)};
+  padding-left: ${({ isShowcase }) => (isShowcase ? 1 : 10)};
   padding-right: 9;
 `;
 
@@ -71,7 +71,7 @@ const TokenFamilyHeader = ({
 }) => {
   const animation = useTimingTransition(!isOpen, {
     duration: TokenFamilyHeaderAnimationDuration,
-    easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    easing: EasingNode.bezier(0.25, 0.1, 0.25, 1),
   });
 
   const rotate = toRad(

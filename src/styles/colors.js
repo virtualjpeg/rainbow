@@ -151,10 +151,23 @@ const getColorsByTheme = darkMode => {
     red: '#C95050', // '201, 80, 80',
   };
 
+  let networkColors = {
+    arbitrum: '#2D374B',
+    goerli: '#f6c343',
+    kovan: '#7057ff',
+    mainnet: buildRgba('#3C4252', 0.5),
+    optimism: '#FF4040',
+    polygon: '#8247E5',
+    rinkeby: '#f6c343',
+    ropsten: '#ff4a8d',
+  };
+
   let gradients = {
     lighterGrey: [buildRgba('#ECF1F5', 0.15), buildRgba('#DFE4EB', 0.5)],
     lightestGrey: ['#FFFFFF', '#F2F4F7'],
+    lightestGreyReverse: ['#F2F4F7', '#FFFFFF'],
     lightGrey: [buildRgba('#ECF1F5', 0.5), buildRgba('#DFE4EB', 0.5)],
+    lightGreyWhite: [buildRgba('#F0F2F5', 0.5), buildRgba('#FFFFFF', 0.5)],
     offWhite: [base.white, base.offWhite],
     rainbow: ['#FFB114', '#FF54BB', '#7EA4DE'],
     savings: ['#FFFFFF', '#F7F9FA'],
@@ -232,7 +245,12 @@ const getColorsByTheme = darkMode => {
     gradients = {
       lighterGrey: [buildRgba('#1F222A', 0.8), buildRgba('#1F222A', 0.6)],
       lightestGrey: [buildRgba('#1F222A', 0.8), buildRgba('#1F222A', 0.3)],
+      lightestGreyReverse: [
+        buildRgba('#1F222A', 0.1),
+        buildRgba('#1F222A', 0.8),
+      ],
       lightGrey: ['#1F222A', buildRgba('#1F222A', 0.8)],
+      lightGreyWhite: [buildRgba('#F0F2F5', 0.05), buildRgba('#FFFFFF', 0.01)],
       offWhite: ['#1F222A', '#1F222A'],
       rainbow: ['#FFB114', '#FF54BB', '#7EA4DE'],
       savings: ['#1F222A', '#1F222A'],
@@ -245,6 +263,17 @@ const getColorsByTheme = darkMode => {
       firstGradient: '#12131Aff',
       secondGradient: '#12131A80',
       thirdGradient: '#12131Aff',
+    };
+
+    networkColors = {
+      arbitrum: '#96BEDC',
+      goerli: '#f6c343',
+      kovan: '#7057ff',
+      mainnet: buildRgba('#E0E8FF', 0.5),
+      optimism: '#FF4040',
+      polygon: '#8247E5',
+      rinkeby: '#f6c343',
+      ropsten: '#ff4a8d',
     };
   }
 
@@ -260,6 +289,7 @@ const getColorsByTheme = darkMode => {
     isColorDark,
     isColorLight,
     listHeaders,
+    networkColors,
     sendScreen,
     ...base,
     ...transparent,

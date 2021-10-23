@@ -31,6 +31,7 @@ export default function useExpandedStateNavigation(inputType) {
     (routeName, traverseParams) => {
       if (isReadOnlyWallet) {
         watchingAlert();
+        return;
       }
 
       InteractionManager.runAfterInteractions(goBack);

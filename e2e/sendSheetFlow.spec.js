@@ -83,11 +83,7 @@ describe('Send Sheet Interaction Flow', () => {
 
   it('Should say correct address in the Profile Screen header', async () => {
     await Helpers.swipe('wallet-screen', 'right');
-    if (device.getPlatform() === 'android') {
-      await Helpers.checkIfElementByTextToExist('0x3C...f608');
-    } else {
-      await Helpers.checkIfElementByTextIsVisible('0x3C...f608');
-    }
+    await Helpers.checkIfVisible('profileAddress-0x3C...f608');
     await Helpers.swipe('profile-screen', 'left');
   });
 
@@ -122,6 +118,7 @@ describe('Send Sheet Interaction Flow', () => {
     await Helpers.checkIfVisible('send-asset-list');
   });
 
+  /*
   it('Should display Asset Form after tapping on savings asset', async () => {
     await Helpers.checkIfVisible('send-savings-cDAI');
     await Helpers.waitAndTap('send-savings-cDAI');
@@ -131,7 +128,7 @@ describe('Send Sheet Interaction Flow', () => {
   it('Should go back to Asset List after tapping on savings asset', async () => {
     await Helpers.waitAndTap('send-asset-form-cDAI');
     await Helpers.checkIfVisible('send-asset-list');
-  });
+  });*/
 
   it('Should display Asset Form after tapping on asset', async () => {
     await Helpers.checkIfVisible('send-asset-DAI');
@@ -287,6 +284,7 @@ describe('Send Sheet Interaction Flow', () => {
     await Helpers.checkIfVisible('edit-contact-button');
     await Helpers.waitAndTap('edit-contact-button');
     await Helpers.tapByText('Delete Contact');
+    await Helpers.delay(2000);
     await Helpers.tapByText('Delete Contact');
     await Helpers.delay(2000);
     await Helpers.checkIfVisible('add-contact-button');
@@ -295,5 +293,6 @@ describe('Send Sheet Interaction Flow', () => {
   afterAll(async () => {
     // Reset the app state
     await device.clearKeychain();
+    await Helpers.delay(2000);
   });
 });
