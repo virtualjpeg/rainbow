@@ -18,8 +18,8 @@ struct PriceWidgetProvider: IntentTimelineProvider {
   let priceDataProvider = PriceDataProvider.shared
   let iconProvider = IconProvider.shared
   
-  let defaultToken = TokenDetails(name: "Ethereum", coinGeckoId: "ethereum", symbol: "ETH", color: "#282C2C", address: "no address")
-  
+  let defaultToken = TokenDetails(name: "Ethereum", coinGeckoId: "ethereum", symbol: "ETH", color: "#282C2C", address: "eth")
+
   func placeholder(in context: Context) -> CustomTokenEntry {
     let eth = defaultToken
     
@@ -51,18 +51,23 @@ struct PriceWidgetProvider: IntentTimelineProvider {
   
   func getTimeline(for configuration: SelectTokenIntent, in context: Context, completion: @escaping (Timeline<CustomTokenEntry>) -> Void) {
     var entries = [CustomTokenEntry]()
-    let tokenDetails = lookupTokenDetails(for: configuration)
+    var tokenData: TokenData?
     
-    let priceData = priceDataProvider.getPriceData(token: tokenDetails.coinGeckoId!)
+    if let tokenDetails = lookupTokenDetails(for: configuration) {
+      let priceData = priceDataProvider.getPriceData(token: tokenDetails.coinGeckoId!)
+      
+      let priceChange = priceData != nil ? priceData!.marketData.priceChangePercentage24h : nil
+      let price = priceData != nil ? priceData!.marketData.currentPrice.usd : nil
+      
+      let icon = priceData != nil ? iconProvider.getIcon(token: tokenDetails.symbol!, address: tokenDetails.address!) : nil
+      
+      tokenData = TokenData(tokenDetails: priceData != nil ? tokenDetails : nil, priceChange: priceChange, price: price, icon: icon)
+    } else {
+      tokenData = TokenData(tokenDetails: nil, priceChange: nil, price: nil, icon: nil)
+    }
     
-    let priceChange = priceData != nil ? priceData!.marketData.priceChangePercentage24h : nil
-    let price = priceData != nil ? priceData!.marketData.currentPrice.usd : nil
-    
-    let icon = priceData != nil ? iconProvider.getIcon(token: tokenDetails.symbol!, address: tokenDetails.address!) : nil
-    
-    let tokenData = TokenData(tokenDetails: priceData != nil ? tokenDetails : nil, priceChange: priceChange, price: price, icon: icon)
     let date = Date()
-    let entry = CustomTokenEntry(date: date, tokenData: tokenData)
+    let entry = CustomTokenEntry(date: date, tokenData: tokenData!)
     
     entries.append(entry)
     let reloadDate = Calendar.current.date(byAdding: .minute, value: 10, to: date)!
@@ -71,10 +76,10 @@ struct PriceWidgetProvider: IntentTimelineProvider {
     completion(timeline)
   }
   
-  private func lookupTokenDetails(for configuration: SelectTokenIntent) -> TokenDetails {
+  private func lookupTokenDetails(for configuration: SelectTokenIntent) -> TokenDetails? {
     let tokenId = configuration.token != nil ? configuration.token!.identifier!.lowercased() : ""
     let tokenForConfig = tokenProvider.getTokens()[tokenId]
-    return tokenForConfig != nil ? tokenForConfig! : defaultToken
+    return tokenForConfig
   }
 }
 

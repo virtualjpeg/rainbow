@@ -40,7 +40,7 @@ final class TokenProvider {
         }
       }
     }
-    addressTokenMap["eth"] = TokenDetails(name: "Ethereum", coinGeckoId: "ethereum", symbol: "ETH", color: "#282C2C", address: "no address")
+    addressTokenMap["eth"] = TokenDetails(name: "Ethereum", coinGeckoId: "ethereum", symbol: "ETH", color: "#282C2C", address: "eth")
     return addressTokenMap.filter { $0.value.coinGeckoId != nil }
   }
   

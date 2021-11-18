@@ -137,7 +137,7 @@ struct PriceWidgetView: View {
                   }.mask(
                     LinearGradient(gradient: Gradient(colors: [fgColor.opacity(0.9), fgColor.opacity(0.8)]), startPoint: .leading, endPoint: .trailing)
                   )
-                    Text(tokenData.price != nil ? convertToCurrency(double: tokenData.price!) : "")
+                    Text(tokenData.price != nil ? convertToCurrency(double: tokenData.price!) : "x")
                       .font(.custom("SF Pro Rounded", size: 28))
                       .fontWeight(.heavy)
                       .foregroundColor(fgColor)
