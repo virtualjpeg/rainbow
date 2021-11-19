@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import UIKit
+import swift_vibrant
 
 @available(iOS 14.0, *)
 struct PriceWidgetView: View {
@@ -39,8 +40,8 @@ struct PriceWidgetView: View {
     if (tokenData.tokenDetails != nil) {
       if let color = tokenData.tokenDetails!.color {
         return hexStringToColor(hex: color)
-      } else if let palette = tokenData.icon?.getColors() {
-        return SwiftUI.Color(palette.primary)
+      } else if let icon = tokenData.icon, let palette = Vibrant.from(icon).getPalette().Vibrant {
+        return SwiftUI.Color(palette.uiColor)
       }
     }
     return Color(red:0.15, green:0.16, blue:0.18)
@@ -137,7 +138,7 @@ struct PriceWidgetView: View {
                   }.mask(
                     LinearGradient(gradient: Gradient(colors: [fgColor.opacity(0.9), fgColor.opacity(0.8)]), startPoint: .leading, endPoint: .trailing)
                   )
-                    Text(tokenData.price != nil ? convertToCurrency(double: tokenData.price!) : "x")
+                    Text(tokenData.price != nil ? convertToCurrency(double: tokenData.price!) : "")
                       .font(.custom("SF Pro Rounded", size: 28))
                       .fontWeight(.heavy)
                       .foregroundColor(fgColor)

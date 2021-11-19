@@ -583,6 +583,7 @@ PODS:
   - Shimmer (1.0.2)
   - SRSRadialGradient (1.0.9):
     - React
+  - swift-vibrant (1.0.0)
   - TcpSockets (3.3.2):
     - CocoaAsyncSocket
     - React
@@ -604,7 +605,7 @@ DEPENDENCIES:
   - libwebp
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
-  - PanModal (from `https://github.com/osdnk/PanModal`, commit `ab97d74279ba28c2891b47a5dc767ed4dd7cf994`)
+  - PanModal (from `https://github.com/osdnk/PanModal`, commit `42c1ac03b79d1333ff06c4234aba2e3e47a32c99`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
   - Permission-FaceID (from `../node_modules/react-native-permissions/ios/FaceID`)
   - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications`)
@@ -692,6 +693,7 @@ DEPENDENCIES:
   - RNTextSize (from `../node_modules/react-native-text-size`)
   - Shimmer
   - SRSRadialGradient (from `../node_modules/react-native-radial-gradient/ios`)
+  - swift-vibrant
   - TcpSockets (from `../node_modules/react-native-tcp`)
   - ToolTipMenu (from `../node_modules/react-native-tooltip`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -726,6 +728,7 @@ SPEC REPOS:
     - SDWebImageWebPCoder
     - Sentry
     - Shimmer
+    - swift-vibrant
     - TOCropViewController
 
 EXTERNAL SOURCES:
@@ -746,7 +749,7 @@ EXTERNAL SOURCES:
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
   PanModal:
-    :commit: ab97d74279ba28c2891b47a5dc767ed4dd7cf994
+    :commit: 42c1ac03b79d1333ff06c4234aba2e3e47a32c99
     :git: https://github.com/osdnk/PanModal
   Permission-Camera:
     :path: "../node_modules/react-native-permissions/ios/Camera"
@@ -925,7 +928,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   PanModal:
-    :commit: ab97d74279ba28c2891b47a5dc767ed4dd7cf994
+    :commit: 42c1ac03b79d1333ff06c4234aba2e3e47a32c99
     :git: https://github.com/osdnk/PanModal
 
 SPEC CHECKSUMS:
@@ -1050,11 +1053,12 @@ SPEC CHECKSUMS:
   Sentry: 89d26e036063b9cb9caa59b6951dd2f8277aa13b
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SRSRadialGradient: a372b4b3bc65a2f3b1a16b906485cff204e1db3e
+  swift-vibrant: 3def73c5c281db74f420ec386590d9c1c5b0995c
   TcpSockets: bd31674146c0931a064fc254a59812dfd1a73ae0
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   ToolTipMenu: 8ac61aded0fbc4acfe7e84a7d0c9479d15a9a382
   Yoga: 2b4a01651f42a32f82e6cef3830a3ba48088237f
 
-PODFILE CHECKSUM: 509e2341ecd4937c47dbf1d1f4e55e7290461bc3
+PODFILE CHECKSUM: da042221b5c2d15bc701ee4312c8fa573765fdf8
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.10.2
