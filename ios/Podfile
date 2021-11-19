@@ -5,12 +5,6 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 # Prevent Cocoapods from collecting stats, which adds time to each pod installation
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
-target 'PriceWidgetExtension' do
-end
-
-target 'SelectTokenIntent' do
-end
-
 target 'Rainbow' do
   # Pods for Rainbow
   config = use_native_modules!
