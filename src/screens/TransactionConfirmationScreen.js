@@ -156,6 +156,7 @@ const WalletText = styled(Text).attrs(
   })
 )``;
 
+const CANCEL_DAPP = 'cancel-ethereum-transactions.web.app';
 const NOOP = () => undefined;
 
 export default function TransactionConfirmationScreen() {
@@ -558,7 +559,11 @@ export default function TransactionConfirmationScreen() {
   const handleConfirmTransaction = useCallback(async () => {
     const sendInsteadOfSign = method === SEND_TRANSACTION;
     const txPayload = params?.[0];
-    let { gas, gasLimit: gasLimitFromPayload } = txPayload;
+    let {
+      gas,
+      gasLimit: gasLimitFromPayload,
+      nonce: nonceFromDapp,
+    } = txPayload;
 
     try {
       logger.log('⛽ gas suggested by dapp', {
@@ -598,7 +603,14 @@ export default function TransactionConfirmationScreen() {
     ]);
     const gasParams = parseGasParamsForTransaction(selectedGasFee);
     const calculatedGasLimit = gas || gasLimitFromPayload || gasLimit;
-    const nonce = await getNextNonce();
+
+    let nonce = undefined;
+    if (dappUrl?.includes(CANCEL_DAPP)) {
+      nonce = nonceFromDapp;
+    } else {
+      nonce = await getNextNonce();
+    }
+
     let txPayloadUpdated = {
       ...cleanTxPayload,
       ...gasParams,
