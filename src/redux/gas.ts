@@ -398,6 +398,8 @@ export const gasPricesStartPolling = (network = Network.mainnet) => async (
               },
               type: GAS_FEES_SUCCESS,
             });
+            // update current selected fee according to new values
+            dispatch(gasUpdateTxFee());
           } catch (e) {
             captureException(new Error('Etherscan gas estimates failed'));
             logger.sentry('Etherscan gas estimates error:', e);
@@ -474,12 +476,13 @@ export const gasUpdateDefaultGasLimit = (
 };
 
 export const gasUpdateTxFee = (
-  gasLimit?: number,
+  updatedGasLimit?: number,
   overrideGasOption?: string,
   l1GasFeeOptimism = null
 ) => (dispatch: AppDispatch, getState: AppGetState) => {
   const {
     defaultGasLimit,
+    gasLimit,
     gasFeeParamsBySpeed,
     selectedGasFee,
     txNetwork,
@@ -488,7 +491,7 @@ export const gasUpdateTxFee = (
   const { assets } = getState().data;
   const { nativeCurrency } = getState().settings;
 
-  const _gasLimit = gasLimit || defaultGasLimit;
+  const _gasLimit = updatedGasLimit || gasLimit || defaultGasLimit;
   const _selectedGasFeeOption =
     overrideGasOption || selectedGasFee.option || NORMAL;
   const nativeTokenPriceUnit =
@@ -526,11 +529,12 @@ export const gasUpdateTxFee = (
     _selectedGasFeeOption,
     txNetwork
   );
+
   dispatch({
     payload: {
       ...selectedGasParams,
       gasFeesBySpeed,
-      gasLimit,
+      gasLimit: _gasLimit,
     },
     type: GAS_UPDATE_TX_FEE,
   });
