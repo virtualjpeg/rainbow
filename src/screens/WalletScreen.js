@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/core';
-import { compact, find, get, isEmpty, keys, map, toLower } from 'lodash';
+import { get, isEmpty, keys, toLower } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { StatusBar } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -29,10 +29,7 @@ import {
 } from '@rainbow-me/hooks';
 import { useNavigation } from '@rainbow-me/navigation';
 import { updateRefetchSavings } from '@rainbow-me/redux/data';
-import {
-  emitChartsRequest,
-  emitPortfolioRequest,
-} from '@rainbow-me/redux/explorer';
+import { emitPortfolioRequest } from '@rainbow-me/redux/explorer';
 import { position } from '@rainbow-me/styles';
 
 const HeaderOpacityToggler = styled(OpacityToggler).attrs(({ isVisible }) => ({
@@ -54,7 +51,6 @@ export default function WalletScreen() {
   const { setParams } = useNavigation();
   const [initialized, setInitialized] = useState(!!params?.initialized);
   const [portfoliosFetched, setPortfoliosFetched] = useState(false);
-  const [fetchedCharts, setFetchedCharts] = useState(false);
   const initializeWallet = useInitializeWallet();
   const refreshAccountData = useRefreshAccountData();
   const { isCoinListEdited } = useCoinListEdited();
@@ -68,18 +64,14 @@ export default function WalletScreen() {
   const {
     isWalletEthZero,
     refetchSavings,
-    sections,
     shouldRefetchSavings,
   } = useWalletSectionsData();
 
   const dispatch = useDispatch();
 
-  const { addressSocket, assetsSocket } = useSelector(
-    ({ explorer: { addressSocket, assetsSocket } }) => ({
-      addressSocket,
-      assetsSocket,
-    })
-  );
+  const { addressSocket } = useSelector(({ explorer: { addressSocket } }) => ({
+    addressSocket,
+  }));
 
   useEffect(() => {
     const fetchAndResetFetchSavings = async () => {
@@ -131,8 +123,10 @@ export default function WalletScreen() {
     }
   }, [portfolios, portfoliosFetched, trackPortfolios, userAccounts.length]);
 
+  // TODO JIN - move this somewhere more appropriate
+  /*
   useEffect(() => {
-    if (initialized && assetsSocket && !fetchedCharts) {
+    if (initialized && assetsSocket) {
       const balancesSection = find(sections, ({ name }) => name === 'balances');
       const assetCodes = compact(map(balancesSection?.data, 'address'));
       if (!isEmpty(assetCodes)) {
@@ -140,7 +134,8 @@ export default function WalletScreen() {
         setFetchedCharts(true);
       }
     }
-  }, [assetsSocket, dispatch, fetchedCharts, initialized, sections]);
+  }, [assetsSocket, dispatch, initialized, sections]);
+  */
 
   // Show the exchange fab only for supported networks
   // (mainnet & rinkeby)
