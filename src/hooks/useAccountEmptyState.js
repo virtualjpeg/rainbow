@@ -5,6 +5,7 @@ import useWalletSectionsData from './useWalletSectionsData';
 
 export default function useAccountEmptyState() {
   const { network, accountAddress } = useAccountSettings();
+  // TODO JIN
   const { isEmpty } = useWalletSectionsData();
   const [isReallyEmpty, setIsReallyEmpty] = useState(true);
 
