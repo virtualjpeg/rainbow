@@ -180,7 +180,6 @@ export default function WalletScreen() {
           isWalletEthZero={isWalletEthZero}
           network={network}
           scrollViewTracker={scrollViewTracker}
-          sections={sections}
         />
       </FabWrapper>
     </WalletPage>
