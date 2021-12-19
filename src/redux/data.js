@@ -518,9 +518,9 @@ export const addressAssetsReceived = (
   if (!isValidMeta) return;
   const { accountAddress, network } = getState().settings;
   const { uniqueTokens } = getState().uniqueTokens;
-  const payload = values(message?.payload?.assets ?? {});
-  let assets = pickBy(
-    payload,
+  const newAssets = values(message?.payload?.assets ?? {});
+  let updatedAssets = pickBy(
+    newAssets,
     asset =>
       asset?.asset?.type !== AssetTypes.compound &&
       asset?.asset?.type !== AssetTypes.trash &&
@@ -528,7 +528,7 @@ export const addressAssetsReceived = (
   );
 
   if (removed) {
-    assets = mapValues(payload, asset => {
+    updatedAssets = mapValues(newAssets, asset => {
       return {
         ...asset,
         quantity: 0,
@@ -536,8 +536,7 @@ export const addressAssetsReceived = (
     });
   }
 
-  // TODO JIN - update this to a map and update all functions here
-  let parsedAssets = parseAccountAssets(assets, uniqueTokens);
+  let parsedAssets = parseAccountAssets(updatedAssets, uniqueTokens);
 
   const liquidityTokens = map(
     parsedAssets,
