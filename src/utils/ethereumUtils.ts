@@ -236,11 +236,8 @@ const formatGenericAsset = (
   };
 };
 
-// TODO JIN
-export const checkWalletEthZero = (assets: ParsedAddressAsset) => {
-  // @ts-ignore
-  const ethAsset = find(assets, asset => asset.address === ETH_ADDRESS);
-  // @ts-ignore
+export const checkWalletEthZero = () => {
+  const ethAsset = getAccountAsset();
   let amount = ethAsset?.balance?.amount ?? 0;
   return isZero(amount);
 };
